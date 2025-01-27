@@ -1,0 +1,36 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# Step 1: Load the dataset
+# Assuming you download the NSL-KDD dataset and preprocess it into CSV
+data = pd.read_csv("KDDTrain+.csv")  # Replace with the correct file path
+
+# Step 2: Preprocessing
+# Example: Select features and label
+X = data.iloc[:, :-1].values  # All columns except the last one as features
+y = data.iloc[:, -1].values   # The last column as the label
+
+# Step 3: Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 4: Initialize and train the model
+clf = DecisionTreeClassifier()
+clf.fit(X_train, y_train)
+
+# Step 5: Make predictions
+y_pred = clf.predict(X_test)
+
+# Step 6: Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model Accuracy: {accuracy * 100:.2f}%")
+
+# Bonus: Predict a sample input
+def predict_sample(input_data):
+    prediction = clf.predict([input_data])
+    print(f"Prediction: {prediction[0]}")
+
+# Example input: Use one row from the dataset as a test
+sample_input = X[0]  # Replace with appropriate feature values
+predict_sample(sample_input)
